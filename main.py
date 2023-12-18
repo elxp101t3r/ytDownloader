@@ -15,9 +15,21 @@ class App(MDApp):
     def getLinkInfo(self, event, window):
         self.link = self.link_input.text
         self.yt = YouTube(self.link)
-        print(self.yt.title)
-        print(self.yt.views)
-        print(self.yt.length)
+        self.title = str(self.yt.title)
+        self.views = str(self.yt.views)
+        self.length = str(self.yt.length)
+        
+        
+        self.titleLabel.text = "Title: "+ self.title + " "
+        self.titleLabel.pos_hint={'center_x': 0.5, 'center_y': 0.4}
+        
+        
+        self.viewsLabel.text = "Views: " + self.views + " "
+        self.viewsLabel.pos_hint={'center_x': 0.5, 'center_y': 0.35}
+        
+        
+        self.lengthLabel.text = "Length: " + self.length + " "
+        self.lengthLabel.pos_hint={'center_x': 0.5, 'center_y': 0.30}
         
         
     def build(self):
@@ -34,14 +46,25 @@ class App(MDApp):
         
         self.link_button.bind(on_press= partial(self.getLinkInfo, layout))
         
+        self.titleLabel = Label(text='', pos_hint={'center_x': 0.5 , 'center_y': 20}, size_hint=(1,1), font_size=20)
+        
+        self.viewsLabel = Label(text='', pos_hint={'center_x': 0.5 , 'center_y': 20}, size_hint=(1,1), font_size=20)
+        
+        self.lengthLabel = Label(text='', pos_hint={'center_x': 0.5 , 'center_y': 20}, size_hint=(1,1), font_size=20)
+        
+        '''https://www.youtube.com/watch?v=etQmWI0ymV8'''
         
         layout.add_widget(self.img)
         layout.add_widget(self.youtubeLink)
         layout.add_widget(self.link_input)
         layout.add_widget(self.link_button)
+        layout.add_widget(self.titleLabel)
+        layout.add_widget(self.viewsLabel)
+        layout.add_widget(self.lengthLabel)
 
         return layout
 
 
 if __name__ == '__main__':
+    
     App().run()
