@@ -31,7 +31,18 @@ class App(MDApp):
         self.lengthLabel.text = "Length: " + self.length + " "
         self.lengthLabel.pos_hint={'center_x': 0.5, 'center_y': 0.30}
         
+        self.downloadButton.text = 'Download'
+        self.downloadButton.pos_hint = {'center_x': 0.5, 'center_y': 0.15}
+        self.downloadButton.size_hint = (.3, .1)
         
+        
+    def download(self, event, layout):
+        self.ys = self.yt.streams.get_highest_resolution()
+        print('Downloading...')
+        self.ys.download()
+        print('Completed!')
+                
+               
     def build(self):
         layout = MDRelativeLayout(md_bg_color = [124/255, 200/255, 255/255])
         
@@ -41,7 +52,7 @@ class App(MDApp):
         
         self.link_input = TextInput(text='', pos_hint={'center_x': 0.5 , 'center_y': 0.65 }, size_hint= (1, None), height=48, font_size=29, foreground_color=(0, 0, 0))
         
-        self.link_button = Button(text='Download', pos_hint={'center_x': 0.5 , 'center_y': 0.5 }, size_hint= (.2, .1), font_size=20, background_color=[0,0,0])
+        self.link_button = Button(text='Search', pos_hint={'center_x': 0.5 , 'center_y': 0.5 }, size_hint= (.2, .1), font_size=20, background_color=[0,0,0])
         
         
         self.link_button.bind(on_press= partial(self.getLinkInfo, layout))
@@ -52,7 +63,10 @@ class App(MDApp):
         
         self.lengthLabel = Label(text='', pos_hint={'center_x': 0.5 , 'center_y': 20}, size_hint=(1,1), font_size=20)
         
-        '''https://www.youtube.com/watch?v=etQmWI0ymV8'''
+        self.downloadButton = Button(pos_hint= {'center_x': 0.5,'center_y': 20}, size_hint=(.2, .1), size=(75, 75), bold=True, font_size=24, background_color=(0,0,0))
+        
+        self.downloadButton.bind(on_press=partial(self.download, layout))
+        
         
         layout.add_widget(self.img)
         layout.add_widget(self.youtubeLink)
@@ -61,6 +75,7 @@ class App(MDApp):
         layout.add_widget(self.titleLabel)
         layout.add_widget(self.viewsLabel)
         layout.add_widget(self.lengthLabel)
+        layout.add_widget(self.downloadButton)
 
         return layout
 
