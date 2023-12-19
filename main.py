@@ -66,7 +66,7 @@ class App(MDApp):
                 
                
     def build(self):
-        layout = MDRelativeLayout(md_bg_color = [124/255, 200/255, 255/255])
+        layout = MDRelativeLayout(md_bg_color = [135/255, 206/255, 235/255])
         
         self.img = Image(source='logo.png', size_hint= (.5, .5), pos_hint={'center_x': 0.5, 'center_y': 0.90})
         
@@ -98,7 +98,7 @@ class App(MDApp):
         layout.add_widget(self.viewsLabel)
         layout.add_widget(self.lengthLabel)
         layout.add_widget(self.downloadButton)
-
+        self.theme_cls.theme_style = "Dark"
         return layout
 
 
