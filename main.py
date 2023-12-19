@@ -7,6 +7,7 @@ from kivy.uix.dropdown import DropDown
 from kivy.uix.textinput import TextInput
 from kivy.uix.image import Image
 from kivy.uix.button import Button
+from kivymd.uix.button import MDRectangleFlatButton
 from kivy.core.window import Window
 
 
@@ -74,7 +75,7 @@ class App(MDApp):
         
         self.link_input = TextInput(text='', pos_hint={'center_x': 0.5 , 'center_y': 0.65 }, size_hint= (1, None), height=48, font_size=29, foreground_color=(0, 0, 0))
         
-        self.link_button = Button(text='Search', pos_hint={'center_x': 0.5 , 'center_y': 0.5 }, size_hint= (.2, .1), font_size=20, background_color=[0,0,0])
+        self.link_button = MDRectangleFlatButton(text='search', pos_hint={'center_x':0.5, "center_y": 0.5}, size_hint=(.2, .1), font_size=20, line_color=[0,0,0,1], text_color=[0,0,0,1], md_bg_color=[255,255,255, 0.3])
         
         
         self.link_button.bind(on_press= partial(self.getLinkInfo, layout))
