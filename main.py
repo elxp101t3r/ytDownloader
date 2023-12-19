@@ -44,7 +44,7 @@ class App(MDApp):
         
         
         for video in self.video:
-            btn = Button(text=video.resolution, size_hint=None, height=30)
+            btn = Button(text=video.resolution, size_hint=(None,None), height=30)
             btn.bind(on_release=lambda btn:self.dropDown.select(btn.text))
             
             self.dropDown.add_widget(btn)
@@ -59,7 +59,7 @@ class App(MDApp):
             
         
     def download(self, event, layout):
-        self.ys = self.yt.streams.get_highest_resolution()
+        self.ys = self.yt.streams.filter(file_extension='mp4').filter(res=self.main_button.text).first()
         print('Downloading...')
         self.ys.download()
         print('Completed!')
