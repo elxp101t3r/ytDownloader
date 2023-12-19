@@ -4,7 +4,7 @@ from kivymd.uix.relativelayout import MDRelativeLayout
 from kivymd.app import MDApp
 from kivy.uix.label import Label
 from kivy.uix.dropdown import DropDown
-from kivy.uix.textinput import TextInput
+from kivymd.uix.textfield import MDTextField
 from kivy.uix.image import Image
 from kivy.uix.button import Button
 from kivymd.uix.button import MDRectangleFlatButton
@@ -73,7 +73,7 @@ class App(MDApp):
         
         self.youtubeLink = Label(text='URL', pos_hint={'center_x': 0.5 , 'center_y': .75}, size_hint=(1,1), font_size=20, color=(0,0,0))
         
-        self.link_input = TextInput(text='', pos_hint={'center_x': 0.5 , 'center_y': 0.65 }, size_hint= (1, None), height=48, font_size=29, foreground_color=(0, 0, 0))
+        self.link_input = MDTextField(text='', pos_hint={'center_x': 0.5,'center_y': 0.65}, size_hint_x=None, width=300)
         
         self.link_button = MDRectangleFlatButton(text='search', pos_hint={'center_x':0.5, "center_y": 0.5}, size_hint=(.2, .1), font_size=20, line_color=[0,0,0,1], text_color=[0,0,0,1], md_bg_color=[255,255,255, 0.3])
         
