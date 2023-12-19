@@ -3,6 +3,7 @@ from pytube import YouTube
 from kivymd.uix.relativelayout import MDRelativeLayout
 from kivymd.app import MDApp
 from kivy.uix.label import Label
+from kivy.uix.dropdown import DropDown
 from kivy.uix.textinput import TextInput
 from kivy.uix.image import Image
 from kivy.uix.button import Button
@@ -12,7 +13,7 @@ from kivy.core.window import Window
 Window.size=(500,600)
 
 class App(MDApp):
-    def getLinkInfo(self, event, window):
+    def getLinkInfo(self, event, layout):
         self.link = self.link_input.text
         self.yt = YouTube(self.link)
         self.title = str(self.yt.title)
@@ -35,6 +36,27 @@ class App(MDApp):
         self.downloadButton.pos_hint = {'center_x': 0.5, 'center_y': 0.15}
         self.downloadButton.size_hint = (.3, .1)
         
+        
+        self.video = self.yt.streams.filter(file_extension='mp4').order_by('resolution').desc()
+        
+        
+        self.dropDown = DropDown()
+        
+        
+        for video in self.video:
+            btn = Button(text=video.resolution, size_hint=None, height=30)
+            btn.bind(on_release=lambda btn:self.dropDown.select(btn.text))
+            
+            self.dropDown.add_widget(btn)
+            
+        self.main_button = Button(text='144p', size_hint=(None, None), pos=(350, 65), height=50)
+        self.main_button.bind(on_release=self.dropDown.open)
+        self.dropDown.bind(on_select=lambda instance, x:setattr(self.main_button, 'text', x))
+        
+        layout.add_widget(self.main_button)
+            
+            
+            
         
     def download(self, event, layout):
         self.ys = self.yt.streams.get_highest_resolution()
