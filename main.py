@@ -1,6 +1,7 @@
 from functools import partial
 from pytube import YouTube
 from kivymd.uix.relativelayout import MDRelativeLayout
+from kivy.uix.video import Video
 from kivymd.app import MDApp
 from kivy.uix.label import Label
 from kivy.uix.dropdown import DropDown
@@ -67,8 +68,8 @@ class App(MDApp):
                 
                
     def build(self):
-        layout = MDRelativeLayout(md_bg_color = [135/255, 206/255, 235/255])
-        
+        layout = MDRelativeLayout()
+        video = Video(source='bg.mp4', state='play', options={'eos': 'loop'})
         self.img = Image(source='logo.png', size_hint= (.5, .5), pos_hint={'center_x': 0.5, 'center_y': 0.90})
         
         self.youtubeLink = Label(text='URL', pos_hint={'center_x': 0.5 , 'center_y': .75}, size_hint=(1,1), font_size=20, color=(0,0,0))
@@ -90,7 +91,7 @@ class App(MDApp):
         
         self.downloadButton.bind(on_press=partial(self.download, layout))
         
-        
+        layout.add_widget(video)
         layout.add_widget(self.img)
         layout.add_widget(self.youtubeLink)
         layout.add_widget(self.link_input)
