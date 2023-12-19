@@ -44,7 +44,7 @@ class App(MDApp):
         
         
         for video in self.video:
-            btn = Button(text=video.resolution, size_hint=(None,None), height=30)
+            btn = Button(text=video.resolution, size_hint_y=None, height=30)
             btn.bind(on_release=lambda btn:self.dropDown.select(btn.text))
             
             self.dropDown.add_widget(btn)
