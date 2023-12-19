@@ -73,7 +73,7 @@ class App(MDApp):
         
         self.youtubeLink = Label(text='URL', pos_hint={'center_x': 0.5 , 'center_y': .75}, size_hint=(1,1), font_size=20, color=(0,0,0))
         
-        self.link_input = MDTextField(text='', pos_hint={'center_x': 0.5,'center_y': 0.65}, text_color_focus=[1,1,1,1], line_color_normal=[0,0,0,1],line_color_focus=[0,0,0,1], size_hint_x=None, width=300)
+        self.link_input = MDTextField(text='', pos_hint={'center_x': 0.5,'center_y': 0.65}, text_color_focus=[0,0,0,1], line_color_normal=[0,0,0,1],line_color_focus=[0,0,0,1], size_hint_x=None, width=300)
         
         self.link_button = MDRectangleFlatButton(text='search', pos_hint={'center_x':0.5, "center_y": 0.5}, size_hint=(.2, .1),font_size=15, line_color=[0,0,0,1], text_color=[1,1,1,1], md_bg_color=[0,0,0, 1])
         
