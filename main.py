@@ -5,6 +5,7 @@ from kivy.uix.video import Video
 from kivymd.app import MDApp
 from kivy.uix.label import Label
 from kivy.uix.dropdown import DropDown
+import re
 from kivymd.uix.textfield import MDTextField
 from kivy.uix.image import Image
 from kivy.uix.button import Button
@@ -17,47 +18,63 @@ Window.size=(500,600)
 class App(MDApp):
     def getLinkInfo(self, event, layout):
         self.link = self.link_input.text
-        self.yt = YouTube(self.link)
-        self.title = str(self.yt.title)
-        self.views = str(self.yt.views)
-        self.length = str(self.yt.length)
+        self.checklink = re.match("^https://www.youtube.com/.*", self.link)
         
-        
-        self.titleLabel.text = "Title: "+ self.title + " "
-        self.titleLabel.pos_hint={'center_x': 0.5, 'center_y': 0.4}
-        
-        
-        self.viewsLabel.text = "Views: " + self.views + " "
-        self.viewsLabel.pos_hint={'center_x': 0.5, 'center_y': 0.35}
-        
-        
-        self.lengthLabel.text = "Length: " + self.length + " "
-        self.lengthLabel.pos_hint={'center_x': 0.5, 'center_y': 0.30}
-        
-        self.downloadButton.text = 'Download'
-        self.downloadButton.pos_hint = {'center_x': 0.5, 'center_y': 0.15}
-        self.downloadButton.size_hint = (.3, .1)
-        
-        
-        self.video = self.yt.streams.filter(file_extension='mp4').order_by('resolution').desc()
-        
-        
-        self.dropDown = DropDown()
-        
-        
-        for video in self.video:
-            btn = Button(text=video.resolution, size_hint_y=None, height=30)
-            btn.bind(on_release=lambda btn:self.dropDown.select(btn.text))
+        if self.checklink:
+            self.errorLabel.text = ''
+            self.errorLabel.pos_hint = {'center_x':0.5, 'center_y':20}
+            try:
+                self.errorLabel.text = ''
+                self.errorLabel.pos_hint = {'center_x':0.5, 'center_y':20}
+                
+                self.yt = YouTube(self.link)
+                self.title = str(self.yt.title)
+                self.views = str(self.yt.views)
+                self.length = str(self.yt.length)
+                
+                
+                self.titleLabel.text = "Title: "+ self.title + " "
+                self.titleLabel.pos_hint={'center_x': 0.5, 'center_y': 0.4}
+                
+                
+                self.viewsLabel.text = "Views: " + self.views + " "
+                self.viewsLabel.pos_hint={'center_x': 0.5, 'center_y': 0.35}
+                
+                
+                self.lengthLabel.text = "Length: " + self.length + " "
+                self.lengthLabel.pos_hint={'center_x': 0.5, 'center_y': 0.30}
+                
+                self.downloadButton.text = 'Download'
+                self.downloadButton.pos_hint = {'center_x': 0.5, 'center_y': 0.15}
+                self.downloadButton.size_hint = (.3, .1)
+                
+                
+                self.video = self.yt.streams.filter(file_extension='mp4').order_by('resolution').desc()
+                
+                
+                self.dropDown = DropDown()
+                
+                
+                for video in self.video:
+                    btn = Button(text=video.resolution, size_hint_y=None, height=30)
+                    btn.bind(on_release=lambda btn:self.dropDown.select(btn.text))
+                    
+                    self.dropDown.add_widget(btn)
+                    
+                self.main_button = Button(text='144p', size_hint=(None, None), pos=(350, 65), height=50)
+                self.main_button.bind(on_release=self.dropDown.open)
+                self.dropDown.bind(on_select=lambda instance, x:setattr(self.main_button, 'text', x))
+                
+                layout.add_widget(self.main_button)
+                
+            except:
+                self.errorLabel.text = 'Network or unknown error'
+                self.errorLabel.pos_hint = {'center_x':0.5, 'center_y':0.4}
             
-            self.dropDown.add_widget(btn)
-            
-        self.main_button = Button(text='144p', size_hint=(None, None), pos=(350, 65), height=50)
-        self.main_button.bind(on_release=self.dropDown.open)
-        self.dropDown.bind(on_select=lambda instance, x:setattr(self.main_button, 'text', x))
-        
-        layout.add_widget(self.main_button)
-            
-            
+        else:
+            self.errorLabel.text = 'Invalid Link!'
+            self.errorLabel.pos_hint = {'center_x':0.5, 'center_y':0.4}
+           
             
         
     def download(self, event, layout):
@@ -90,6 +107,7 @@ class App(MDApp):
         self.downloadButton = Button(pos_hint= {'center_x': 0.5,'center_y': 20}, size_hint=(.2, .1), size=(75, 75), bold=True, font_size=24, background_color=(0,0,0))
         
         self.downloadButton.bind(on_press=partial(self.download, layout))
+        self.errorLabel = Label(text='', pos_hint={'center_x':0.5, 'center_y':20}, size_hint=(1,1), font_size=20, color=(1,0,0))
         
         layout.add_widget(video)
         layout.add_widget(self.img)
@@ -100,7 +118,8 @@ class App(MDApp):
         layout.add_widget(self.viewsLabel)
         layout.add_widget(self.lengthLabel)
         layout.add_widget(self.downloadButton)
-        self.theme_cls.theme_style = "Dark"
+        layout.add_widget(self.errorLabel)
+        
         return layout
 
 
